@@ -3,34 +3,34 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>Plinko Pro Max</title>
+    <title>Spribe Plinko Clone</title>
     <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@500;700&display=swap" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/matter-js/0.19.0/matter.min.js"></script>
 </head>
 <body>
     <div class="app-container">
-        <div class="top-nav">
-            <div class="stat-item">
-                <span class="label">BALANCE</span>
-                <div class="val"><span id="balance">1000</span> <small>$</small></div>
+        <div class="header">
+            <div class="balance-display">
+                <small>BALANCE</small>
+                <div class="amount"><span id="balance">1000.00</span> USD</div>
             </div>
-            <div class="win-tag" id="winNotice">READY</div>
+            <div class="win-notice" id="winNotice">---</div>
         </div>
 
         <div id="game-area"></div>
 
-        <div class="bottom-panel">
-            <div class="controls-wrapper">
-                <div class="bet-selector">
+        <div class="footer">
+            <div class="bet-controls">
+                <div class="bet-amount-box">
                     <button onclick="changeBet(-5)">-</button>
-                    <div class="bet-info">
+                    <div class="val">
                         <small>BET</small>
                         <span id="betAmount">10</span>
                     </div>
                     <button onclick="changeBet(5)">+</button>
                 </div>
-                <button id="drop-btn">PLAY</button>
+                <button id="drop-btn">BET</button>
             </div>
         </div>
     </div>
