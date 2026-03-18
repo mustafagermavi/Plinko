@@ -1,45 +1,51 @@
-const canvas = document.getElementById("game")
+const canvas=document.getElementById("board")
 
-const ctx = canvas.getContext("2d")
+const ctx=canvas.getContext("2d")
 
-canvas.width = 700
-canvas.height = 600
+canvas.width=420
+canvas.height=420
+
+let risk="green"
 
 let ball=null
 
+let bet=0.30
+
+const betText=document.getElementById("bet")
+
+const rows=14
+
 let pegs=[]
 
-for(let y=100;y<450;y+=40){
+for(let r=0;r<rows;r++){
 
-for(let x=80;x<620;x+=60){
+for(let c=0;c<=r;c++){
 
-pegs.push({x:x,y:y})
+pegs.push({
+
+x:210-r*13+c*26,
+
+y:40+r*25
+
+})
 
 }
 
 }
 
-let slots=[0.2,0.5,1,2,5,2,1,0.5,0.2]
+function drawBoard(){
 
-function draw(){
+ctx.clearRect(0,0,420,420)
 
-ctx.clearRect(0,0,canvas.width,canvas.height)
-
-ctx.fillStyle="#00ffc3"
+ctx.fillStyle="white"
 
 pegs.forEach(p=>{
 
 ctx.beginPath()
 
-ctx.arc(p.x,p.y,5,0,Math.PI*2)
+ctx.arc(p.x,p.y,3,0,Math.PI*2)
 
 ctx.fill()
-
-})
-
-slots.forEach((m,i)=>{
-
-ctx.fillText(m+"x",i*70+40,580)
 
 })
 
@@ -47,35 +53,17 @@ if(ball){
 
 ctx.beginPath()
 
-ctx.arc(ball.x,ball.y,9,0,Math.PI*2)
+ctx.arc(ball.x,ball.y,6,0,Math.PI*2)
 
-ctx.fillStyle="yellow"
+ctx.fillStyle="white"
 
 ctx.fill()
 
-ball.y+=4
+ball.y+=3
 
-pegs.forEach(p=>{
+ball.x+=(Math.random()-0.5)*4
 
-if(Math.hypot(ball.x-p.x,ball.y-p.y)<12){
-
-ball.x+=(Math.random()-0.5)*50
-
-}
-
-})
-
-if(ball.y>560){
-
-let slot=Math.floor(ball.x/70)
-
-let multi=slots[slot]||0
-
-let bet=document.getElementById("bet").value
-
-let win=bet*multi
-
-document.getElementById("win").innerText="WIN: "+win
+if(ball.y>380){
 
 ball=null
 
@@ -83,7 +71,7 @@ ball=null
 
 }
 
-requestAnimationFrame(draw)
+requestAnimationFrame(drawBoard)
 
 }
 
@@ -91,12 +79,80 @@ function dropBall(){
 
 ball={
 
-x:350,
+x:210,
 
-y:20
-
-}
+y:10
 
 }
 
-draw()
+}
+
+function setRisk(r){
+
+risk=r
+
+generateMultipliers()
+
+}
+
+function betPlus(){
+
+bet+=0.10
+
+betText.innerText=bet.toFixed(2)
+
+}
+
+function betMinus(){
+
+bet-=0.10
+
+if(bet<0.10)bet=0.10
+
+betText.innerText=bet.toFixed(2)
+
+}
+
+function generateMultipliers(){
+
+const container=document.getElementById("multipliers")
+
+container.innerHTML=""
+
+let values
+
+if(risk=="green"){
+
+values=[18,3.2,1.6,1.3,1.2,1.1,1,0.5,1,1.1,1.2,1.3,1.6,3.2,18]
+
+}
+
+if(risk=="yellow"){
+
+values=[55,12,5.6,3.2,1.6,1,0.7,0.2,0.7,1,1.6,3.2,5.6,12,55]
+
+}
+
+if(risk=="red"){
+
+values=[353,49,14,5.3,2.1,0.5,0.2,0,0.2,0.5,2.1,5.3,14,49,353]
+
+}
+
+values.forEach(v=>{
+
+let d=document.createElement("div")
+
+d.innerText=v
+
+d.className=risk
+
+container.appendChild(d)
+
+})
+
+}
+
+generateMultipliers()
+
+drawBoard()
