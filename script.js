@@ -4,8 +4,8 @@ const engine = Engine.create();
 const world = engine.world;
 const gameArea = document.getElementById('game-area');
 
-let w = gameArea.clientWidth || 360;
-let h = gameArea.clientHeight || 500;
+let w = gameArea.clientWidth;
+let h = gameArea.clientHeight;
 
 const render = Render.create({
     element: gameArea,
@@ -20,8 +20,9 @@ const render = Render.create({
 Render.run(render);
 Runner.run(Runner.create(), engine);
 
-// ڕەنگی خانەکان
-const getXColor = (v) => v >= 10 ? '#ef4444' : v >= 2 ? '#f59e0b' : v >= 1 ? '#eab308' : '#475569';
+// ڕەنگی خانەکان بەپێی Spribe (لە ناوەڕاستەوە بۆ لایەکان دەگۆڕێت)
+const colors = ["#ff0000", "#ff4500", "#ffa500", "#ffff00", "#adff2f", "#22c55e", "#adff2f", "#ffff00", "#ffa500", "#ff4500", "#ff0000"];
+const multipliers = [15, 8, 3, 1.5, 1.1, 0.5, 1.1, 1.5, 3, 8, 15];
 
 // دروستکردنی بزمارەکان
 const rows = 12;
@@ -29,52 +30,47 @@ const spacing = w / 12.5;
 for (let i = 0; i < rows; i++) {
     for (let j = 0; j <= i; j++) {
         const x = w / 2 + (j - i / 2) * spacing;
-        const y = 60 + i * (h / 19);
-        Composite.add(world, Bodies.circle(x, y, 3.5, {
+        const y = 50 + i * (h / 18);
+        Composite.add(world, Bodies.circle(x, y, 4, {
             isStatic: true,
-            render: { fillStyle: '#ffffff44' },
-            restitution: 0.8
+            render: { fillStyle: "#8b949e" },
+            restitution: 1.2 // وا دەکات تۆپەکە باشتر هەڵبەزێتەوە
         }));
     }
 }
 
-// خانەکانی خەڵات (Multipliers)
-const multipliers = [15, 8, 3, 1.2, 0.5, 0.2, 0.5, 1.2, 3, 8, 15];
+// دروستکردنی خانەکان
 const sW = w / multipliers.length;
-
 multipliers.forEach((val, i) => {
-    const x = i * sW + sW / 2;
-    const slot = Bodies.rectangle(x, h - 40, sW - 5, 35, {
-        isStatic: true,
-        isSensor: true,
-        label: `x-${val}`,
-        render: { fillStyle: getXColor(val) }
+    const slot = Bodies.rectangle(i * sW + sW / 2, h - 35, sW - 4, 35, {
+        isStatic: true, isSensor: true, label: `x-${val}`,
+        render: { fillStyle: colors[i] }
     });
-    slot.originalY = h - 40; // پاشکۆ بۆ ئەنیمەیشن
+    slot.originalY = h - 35;
     Composite.add(world, slot);
 });
 
-// نووسینی ژمارەکان لەسەر خانەکان
+// نووسینی X لەسەر خانەکان
 Events.on(render, 'afterRender', () => {
     const ctx = render.context;
-    ctx.font = 'bold 11px Orbitron';
+    ctx.font = 'bold 11px Roboto';
     ctx.textAlign = 'center';
-    ctx.fillStyle = '#ffffff';
+    ctx.fillStyle = '#000';
     multipliers.forEach((val, i) => {
-        ctx.fillText(val + 'x', i * sW + sW / 2, h - 32);
+        ctx.fillText(val + 'x', i * sW + sW / 2, h - 30);
     });
 });
 
 let balance = 1000, bet = 10;
 
 document.getElementById('drop-btn').addEventListener('click', () => {
-    if (balance < bet) return alert("باڵانست نییە!");
+    if (balance < bet) return;
     balance -= bet;
     updateUI();
 
-    const ball = Bodies.circle(w/2 + (Math.random()*6-3), 20, 7, {
-        restitution: 0.5, friction: 0.01, label: 'ball',
-        render: { fillStyle: '#00f2ff' }
+    const ball = Bodies.circle(w / 2 + (Math.random() * 4 - 2), 15, 6, {
+        restitution: 0.5, friction: 0.001, label: 'ball',
+        render: { fillStyle: '#ff0000' }
     });
     Composite.add(world, ball);
 });
@@ -87,38 +83,22 @@ Events.on(engine, 'collisionStart', (event) => {
 
         if (ball && slot && !ball.used) {
             ball.used = true;
-            handleWin(ball, slot);
+            const x = parseFloat(slot.label.split('-')[1]);
+            balance += bet * x;
+            
+            // ئەنیمەیشنی Bounce
+            Body.setPosition(slot, { x: slot.position.x, y: slot.originalY + 8 });
+            setTimeout(() => Body.setPosition(slot, { x: slot.position.x, y: slot.originalY }), 100);
+            
+            document.getElementById('winNotice').innerText = `WIN: x${x}`;
+            updateUI();
+            Composite.remove(world, ball);
         }
     });
 });
 
-function handleWin(ball, slot) {
-    const x = parseFloat(slot.label.split('-')[1]);
-    const win = bet * x;
-    balance += win;
-
-    // --- ئەنیمەیشنی "Bounce" و سپی بوونی خانەکە ---
-    const originalColor = getXColor(x);
-    slot.render.fillStyle = '#ffffff';
-    Body.setPosition(slot, { x: slot.position.x, y: slot.originalY + 10 });
-
-    setTimeout(() => {
-        slot.render.fillStyle = originalColor;
-        Body.setPosition(slot, { x: slot.position.x, y: slot.originalY });
-        Composite.remove(world, ball);
-    }, 120);
-
-    const notice = document.getElementById('winNotice');
-    notice.innerText = `X${x} (+$${win.toFixed(2)})`;
-    notice.style.color = x >= 1 ? '#00f2ff' : '#ff4444';
-    notice.style.transform = "scale(1.2)";
-    setTimeout(() => notice.style.transform = "scale(1)", 200);
-
-    updateUI();
-}
-
 function updateUI() {
-    document.getElementById('balance').innerText = Math.floor(balance);
+    document.getElementById('balance').innerText = balance.toFixed(2);
     document.getElementById('betAmount').innerText = bet;
 }
 
