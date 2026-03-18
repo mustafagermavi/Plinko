@@ -1,78 +1,102 @@
-const canvas = document.getElementById("gameCanvas");
-const ctx = canvas.getContext("2d");
+const canvas = document.getElementById("game")
 
-canvas.width = 600;
-canvas.height = 500;
+const ctx = canvas.getContext("2d")
 
-let ball = null;
+canvas.width = 700
+canvas.height = 600
 
-const pegs = [];
+let ball=null
 
-for(let y=80; y<400; y+=40){
-for(let x=60; x<540; x+=60){
-pegs.push({x:x,y:y});
+let pegs=[]
+
+for(let y=100;y<450;y+=40){
+
+for(let x=80;x<620;x+=60){
+
+pegs.push({x:x,y:y})
+
 }
+
 }
 
-const multipliers = [0.5,1,2,5,2,1,0.5];
+let slots=[0.2,0.5,1,2,5,2,1,0.5,0.2]
 
 function draw(){
 
-ctx.clearRect(0,0,canvas.width,canvas.height);
+ctx.clearRect(0,0,canvas.width,canvas.height)
 
-ctx.fillStyle="white";
+ctx.fillStyle="#00ffc3"
 
 pegs.forEach(p=>{
-ctx.beginPath();
-ctx.arc(p.x,p.y,5,0,Math.PI*2);
-ctx.fill();
-});
 
-multipliers.forEach((m,i)=>{
-ctx.fillText(m+"x",80*i+40,480);
-});
+ctx.beginPath()
+
+ctx.arc(p.x,p.y,5,0,Math.PI*2)
+
+ctx.fill()
+
+})
+
+slots.forEach((m,i)=>{
+
+ctx.fillText(m+"x",i*70+40,580)
+
+})
 
 if(ball){
-ctx.beginPath();
-ctx.arc(ball.x,ball.y,8,0,Math.PI*2);
-ctx.fillStyle="yellow";
-ctx.fill();
 
-ball.y += 4;
+ctx.beginPath()
+
+ctx.arc(ball.x,ball.y,9,0,Math.PI*2)
+
+ctx.fillStyle="yellow"
+
+ctx.fill()
+
+ball.y+=4
 
 pegs.forEach(p=>{
-if(Math.hypot(ball.x-p.x,ball.y-p.y)<10){
-ball.x += (Math.random()-0.5)*40;
-}
-});
 
-if(ball.y>450){
+if(Math.hypot(ball.x-p.x,ball.y-p.y)<12){
 
-let slot = Math.floor(ball.x/80);
-let multi = multipliers[slot] || 0;
-
-let bet = parseFloat(document.getElementById("bet").value);
-
-document.getElementById("result").innerText =
-"Win: "+ (bet*multi).toFixed(2);
-
-ball = null;
+ball.x+=(Math.random()-0.5)*50
 
 }
 
+})
+
+if(ball.y>560){
+
+let slot=Math.floor(ball.x/70)
+
+let multi=slots[slot]||0
+
+let bet=document.getElementById("bet").value
+
+let win=bet*multi
+
+document.getElementById("win").innerText="WIN: "+win
+
+ball=null
+
 }
 
-requestAnimationFrame(draw);
+}
+
+requestAnimationFrame(draw)
 
 }
 
 function dropBall(){
 
-ball = {
-x:300,
+ball={
+
+x:350,
+
 y:20
-}
 
 }
 
-draw();
+}
+
+draw()
