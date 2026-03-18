@@ -2,45 +2,42 @@
 <html lang="ku" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>Plinko Luxury Edition</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Mustafa Dev | Plinko Luxury</title>
     <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@600;800&display=swap" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/matter-js/0.19.0/matter.min.js"></script>
 </head>
 <body>
-    <div class="luxury-container">
-        <header class="premium-header">
-            <div class="brand">
-                <span class="logo-dot"></span>
-                <span class="brand-name">PLINKO <small>PRO</small></span>
-            </div>
-            <div class="wallet-pill">
-                <span class="currency">USD</span>
-                <span id="balance" class="balance-num">1,000.00</span>
+    <div class="app-container">
+        <header class="glass-header">
+            <div class="brand">MUSTAFA <span class="neon-text">DEV</span></div>
+            <div class="wallet">
+                <span id="balance">1,000.00</span> <small>USD</small>
             </div>
         </header>
 
-        <main id="game-area"></main>
+        <main id="game-canvas-area"></main>
 
-        <footer class="action-panel">
-            <div class="bet-card">
-                <div class="bet-info">
-                    <span class="label">بڕی گرەو</span>
-                    <div class="stepper">
-                        <button class="step-btn" onclick="changeBet(-5)">−</button>
-                        <span id="betAmount" class="current-bet">10</span>
-                        <button class="step-btn" onclick="changeBet(5)">+</button>
+        <footer class="controls-panel">
+            <div class="bet-box">
+                <div class="stepper">
+                    <button onclick="ui.adjustBet(-5)">−</button>
+                    <div class="bet-display">
+                        <small>BET</small>
+                        <span id="betAmount">10</span>
                     </div>
+                    <button onclick="ui.adjustBet(5)">+</button>
                 </div>
-                <button id="drop-btn" class="bet-button">
-                    <span>BET</span>
-                    <div class="shine"></div>
+                <button id="drop-btn" class="main-action-btn">
+                    <span>PLAY</span>
+                    <div class="btn-glow"></div>
                 </button>
             </div>
-            <div id="winNotice" class="status-bar">ئامادەیە بۆ یاری</div>
-        </footer>
+        </header>
     </div>
-    <script src="script.js"></script>
+
+    <script src="system.js"></script>
+    <script src="ui.js"></script>
 </body>
 </html>
