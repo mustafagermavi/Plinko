@@ -1,38 +1,40 @@
 <!DOCTYPE html>
 <html>
 <head>
-
+<meta charset="UTF-8">
 <title>PLINKO CASINO</title>
-
 <link rel="stylesheet" href="style.css">
-
 </head>
 
 <body>
 
-<div class="casino">
+<div class="game">
 
-<h1>PLINKO CASINO</h1>
+<div class="top">
+Pins: 14
+</div>
 
-<div class="panel">
+<canvas id="board"></canvas>
 
-<label>Bet</label>
-<input id="bet" type="number" value="10">
+<div class="multipliers" id="multipliers"></div>
 
-<label>Risk</label>
-<select id="risk">
-<option>Low</option>
-<option>Medium</option>
-<option>High</option>
-</select>
+<div class="controls">
 
-<button onclick="dropBall()">DROP</button>
+<button onclick="setRisk('green')" class="green">GREEN</button>
+<button onclick="setRisk('yellow')" class="yellow">YELLOW</button>
+<button onclick="setRisk('red')" class="red">RED</button>
 
 </div>
 
-<canvas id="game"></canvas>
+<div class="bet">
 
-<div id="win"></div>
+<button onclick="betMinus()">-</button>
+<span id="bet">0.30</span>
+<button onclick="betPlus()">+</button>
+
+<button onclick="dropBall()">PLAY</button>
+
+</div>
 
 </div>
 
