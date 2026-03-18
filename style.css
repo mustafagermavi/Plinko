@@ -1,136 +1,146 @@
 :root {
-    --bg: #0d1117;
-    --panel: #161b22;
-    --green: #22c55e;
-    --text: #e6edf3;
+    --bg-dark: #0f1923;
+    --panel-bg: #1a242d;
+    --accent-green: #00ff5f;
+    --ball-red: #ff3e3e;
+    --text-gray: #98a7b5;
+    --slot-border: rgba(255, 255, 255, 0.1);
 }
 
 * {
     box-sizing: border-box;
     margin: 0; padding: 0;
-    touch-action: manipulation; /* گرنگ: ڕێگری لە Double-tap zoom */
+    touch-action: manipulation;
     -webkit-tap-highlight-color: transparent;
     user-select: none;
-    -webkit-user-select: none;
 }
 
 body {
-    background: #000;
+    background-color: #000;
     font-family: 'Roboto', sans-serif;
     height: 100dvh;
+    display: flex;
+    justify-content: center;
     overflow: hidden;
-    position: fixed; /* ڕێگری لە سکرۆڵی نەخوازراو */
-    width: 100%;
 }
 
 .app-container {
-    width: 100vw;
-    height: 100dvh;
-    max-width: 500px;
-    margin: 0 auto;
+    width: 100%;
+    max-width: 480px;
+    background: radial-gradient(circle at center, #1e2b36 0%, #0f1923 100%);
     display: flex;
     flex-direction: column;
-    background: var(--bg);
-    padding-top: env(safe-area-inset-top);
-    padding-bottom: env(safe-area-inset-bottom);
+    position: relative;
+    box-shadow: 0 0 50px rgba(0,0,0,0.5);
 }
 
+/* بەشی باڵانس - شێوازی Spribe */
 .header {
     padding: 15px 20px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background: var(--panel);
-    border-bottom: 1px solid #30363d;
+    background: rgba(26, 36, 45, 0.8);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--slot-border);
+    z-index: 10;
+}
+
+.balance-section small {
+    display: block;
+    font-size: 10px;
+    color: var(--text-gray);
+    letter-spacing: 1px;
+    margin-bottom: 2px;
 }
 
 .balance-val {
-    color: var(--green);
-    font-size: 20px;
-    font-weight: bold;
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--accent-green);
+    text-shadow: 0 0 10px rgba(0, 255, 95, 0.2);
 }
 
+/* شێوازی خانەی دۆخەکە */
 .status-tag {
-    background: #21262d;
-    padding: 5px 15px;
-    border-radius: 20px;
     font-size: 12px;
-    color: #8b949e;
-    border: 1px solid #30363d;
-    transition: transform 0.1s;
+    color: var(--text-gray);
+    background: #242f3a;
+    padding: 4px 12px;
+    border-radius: 4px;
+    border: 1px solid var(--slot-border);
 }
 
+/* بەشی یارییەکە */
 #game-area {
     flex: 1;
     position: relative;
-    width: 100%;
-    overflow: hidden;
+    /* زیادکردنی سێبەری بزمارەکان بە ناڕاستەوخۆ */
 }
 
-canvas {
-    display: block;
-    width: 100% !important;
-    height: 100% !important;
-}
-
+/* بەشی کۆنترۆڵ - شێوازی لوکس */
 .footer {
     padding: 20px;
-    background: var(--panel);
-    border-top: 1px solid #30363d;
-    border-top-left-radius: 24px;
-    border-top-right-radius: 24px;
+    background: #1a242d;
+    border-top: 2px solid #242f3a;
+    border-radius: 24px 24px 0 0;
 }
 
 .controls {
     display: flex;
+    flex-direction: column; /* لە مۆبایلدا دانانی دوگمە لەژێر یەک جوانترە */
     gap: 12px;
 }
 
 .bet-input {
-    flex: 1.2;
-    background: #0d1117;
-    border-radius: 12px;
     display: flex;
     align-items: center;
-    padding: 4px;
-    border: 1px solid #30363d;
+    background: #0f1923;
+    border-radius: 8px;
+    padding: 6px;
+    border: 1px solid #2d3843;
 }
 
 .bet-input button {
-    width: 40px;
+    width: 45px;
     height: 40px;
     border: none;
-    background: #21262d;
+    background: #2d3843;
     color: white;
-    border-radius: 8px;
+    border-radius: 6px;
     font-size: 20px;
-    cursor: pointer;
+    font-weight: bold;
+    transition: background 0.2s;
 }
+
+.bet-input button:active { background: #3d4956; }
 
 .bet-display {
     flex: 1;
     text-align: center;
 }
 
-.bet-display small {
-    display: block;
-    font-size: 9px;
-    color: #8b949e;
+.bet-display span {
+    font-size: 18px;
+    font-weight: 700;
+    color: white;
 }
 
+/* دوگمەی BET ی گەورە */
 #drop-btn {
-    flex: 1;
-    background: var(--green);
+    height: 55px;
+    background: #22c55e;
     border: none;
-    border-radius: 12px;
+    border-radius: 8px;
     color: #000;
-    font-weight: bold;
-    font-size: 18px;
-    box-shadow: 0 4px 0px #166534;
-    cursor: pointer;
+    font-weight: 900;
+    font-size: 20px;
+    text-transform: uppercase;
+    box-shadow: 0 4px 0 #15803d;
+    transition: all 0.1s;
 }
 
 #drop-btn:active {
     transform: translateY(2px);
-    box-shadow: 0 2px 0px #166534;
+    box-shadow: 0 2px 0 #15803d;
 }
