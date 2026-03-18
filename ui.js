@@ -1,44 +1,41 @@
-const ui = (() => {
-    let balance = 1000;
-    let bet = 10;
+const ui = {
+    balance: 1000,
+    bet: 10,
 
-    const balanceEl = document.getElementById('balance');
-    const betEl = document.getElementById('betAmount');
-    const dropBtn = document.getElementById('drop-btn');
+    init() {
+        document.getElementById('drop-btn').onclick = () => this.play();
+        this.updateDisplay();
+    },
 
-    const adjustBet = (amount) => {
-        if (bet + amount >= 5) {
-            bet += amount;
-            updateDisplay();
+    adjustBet(val) {
+        if (this.bet + val >= 5) {
+            this.bet += val;
+            this.updateDisplay();
         }
-    };
+    },
 
-    const updateDisplay = () => {
-        balanceEl.innerText = balance.toLocaleString(undefined, { minimumFractionDigits: 2 });
-        betEl.innerText = bet;
-    };
-
-    const handleWin = (multiplier, ball, slot) => {
-        balance += (bet * multiplier);
-        updateDisplay();
-
-        // ئەنیمەیشنی سادەی خانەکە
-        Matter.Body.setStatic(ball, true);
-        setTimeout(() => {
-            Matter.Composite.remove(System.engine, ball); // کاتێک تۆپەکە لادەبرێت
-        }, 200);
-    };
-
-    dropBtn.onclick = () => {
-        if (balance >= bet) {
-            balance -= bet;
-            updateDisplay();
-            System.spawnBall("#00ffa3"); // فەرمان بۆ بزوێنەرەکە
+    play() {
+        if (this.balance >= this.bet) {
+            this.balance -= this.bet;
+            this.updateDisplay();
+            System.spawnBall();
         }
-    };
+    },
 
-    return { adjustBet, handleWin };
-})();
+    handleWin(multiplier) {
+        this.balance += (this.bet * multiplier);
+        this.updateDisplay();
+    },
 
-// هەناردەکردنی بۆ ئەوەی سیستەم بیبینێت
-window.ui = ui;
+    updateDisplay() {
+        document.getElementById('balance').innerText = this.balance.toLocaleString(undefined, { minimumFractionDigits: 2 });
+        document.getElementById('betAmount').innerText = this.bet;
+    }
+};
+
+// ڕێکخستنی کۆتایی
+window.onload = () => {
+    System.init();
+    ui.init();
+    window.ui = ui; // بۆ ئەوەی دوگمەکانی HTML بیبینن
+};
