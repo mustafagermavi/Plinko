@@ -1,34 +1,79 @@
 body{
-background:#000;
-color:white;
+
+background: radial-gradient(circle,#020024,#000000);
+
 font-family:Arial;
+
 text-align:center;
+
+color:white;
+
 }
 
-.container{
-width:600px;
+.casino{
+
+width:700px;
+
 margin:auto;
+
 }
 
-canvas{
-background:#111;
-border:2px solid #444;
-margin-top:20px;
+h1{
+
+color:#00ffc3;
+
+text-shadow:0 0 20px #00ffc3;
+
 }
 
-.controls{
-margin-top:20px;
-}
+.panel{
 
-button{
-padding:10px 20px;
-background:#00ff99;
-border:none;
-font-weight:bold;
-cursor:pointer;
+margin:20px;
+
 }
 
 input,select{
+
 padding:10px;
-margin:5px;
+
+background:#111;
+
+color:white;
+
+border:1px solid #00ffc3;
+
+}
+
+button{
+
+padding:10px 25px;
+
+background:#00ffc3;
+
+border:none;
+
+cursor:pointer;
+
+font-weight:bold;
+
+}
+
+canvas{
+
+background:#050505;
+
+border:2px solid #00ffc3;
+
+margin-top:20px;
+
+}
+
+#win{
+
+font-size:22px;
+
+margin-top:20px;
+
+color:#00ffc3;
+
 }
