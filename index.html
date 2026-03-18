@@ -3,34 +3,39 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>Plinko Pro Max</title>
+    <title>Plinko Premium</title>
     <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/matter-js/0.19.0/matter.min.js"></script>
 </head>
 <body>
-    <div class="app-container">
-        <div class="header">
-            <div class="balance-section">
-                <small>باڵانس</small>
-                <div class="balance-val"><span id="balance">1000.00</span> <span>USD</span></div>
+    <div class="app-wrapper">
+        <div class="glass-header">
+            <div class="wallet-info">
+                <div class="balance-container">
+                    <span id="balance">1000.00</span>
+                    <small>USD</small>
+                </div>
             </div>
-            <div class="status-tag" id="winNotice">ئامادەیە</div>
+            <div class="game-status" id="winNotice">READY</div>
         </div>
 
         <div id="game-area"></div>
 
-        <div class="footer">
-            <div class="controls">
-                <div class="bet-input">
-                    <button onclick="changeBet(-5)">-</button>
-                    <div class="bet-display">
-                        <small>BET</small>
+        <div class="control-center">
+            <div class="bet-panel">
+                <div class="input-group">
+                    <button class="adj-btn" onclick="changeBet(-5)">-</button>
+                    <div class="bet-value">
+                        <small>بڕی گرەو</small>
                         <span id="betAmount">10</span>
                     </div>
-                    <button onclick="changeBet(5)">+</button>
+                    <button class="adj-btn" onclick="changeBet(5)">+</button>
                 </div>
-                <button id="drop-btn">BET</button>
+                <button id="drop-btn" class="main-action">
+                    <span class="btn-text">BET</span>
+                    <div class="btn-glow"></div>
+                </button>
             </div>
         </div>
     </div>
