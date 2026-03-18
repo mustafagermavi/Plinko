@@ -1,12 +1,136 @@
-:root { --bg: #0f172a; --green: #22c55e; }
-body { margin: 0; background: #000; font-family: 'Roboto', sans-serif; color: white; height: 100dvh; overflow: hidden; }
-.app-container { width: 100vw; height: 100dvh; max-width: 480px; margin: 0 auto; display: flex; flex-direction: column; background: var(--bg); }
-.header { padding: 15px; display: flex; justify-content: space-between; align-items: center; background: #1e293b; }
-#balance { color: var(--green); font-size: 20px; font-weight: bold; }
-#game-area { flex: 1; position: relative; touch-action: none; }
-.footer { padding: 20px; background: #1e293b; border-top-left-radius: 20px; border-top-right-radius: 20px; }
-.controls { display: flex; gap: 10px; }
-.bet-adjust { flex: 1; background: #0f172a; display: flex; justify-content: space-between; align-items: center; border-radius: 10px; padding: 5px; border: 1px solid #334155; }
-.bet-adjust button { background: #334155; border: none; color: white; width: 35px; height: 35px; border-radius: 5px; font-size: 20px; }
-#drop-btn { flex: 1; background: var(--green); border: none; border-radius: 10px; color: #000; font-weight: bold; font-size: 18px; box-shadow: 0 4px 0 #166534; }
-#drop-btn:active { transform: translateY(2px); box-shadow: 0 2px 0 #166534; }
+:root {
+    --bg: #0d1117;
+    --panel: #161b22;
+    --green: #22c55e;
+    --text: #e6edf3;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0; padding: 0;
+    touch-action: manipulation; /* گرنگ: ڕێگری لە Double-tap zoom */
+    -webkit-tap-highlight-color: transparent;
+    user-select: none;
+    -webkit-user-select: none;
+}
+
+body {
+    background: #000;
+    font-family: 'Roboto', sans-serif;
+    height: 100dvh;
+    overflow: hidden;
+    position: fixed; /* ڕێگری لە سکرۆڵی نەخوازراو */
+    width: 100%;
+}
+
+.app-container {
+    width: 100vw;
+    height: 100dvh;
+    max-width: 500px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    background: var(--bg);
+    padding-top: env(safe-area-inset-top);
+    padding-bottom: env(safe-area-inset-bottom);
+}
+
+.header {
+    padding: 15px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: var(--panel);
+    border-bottom: 1px solid #30363d;
+}
+
+.balance-val {
+    color: var(--green);
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.status-tag {
+    background: #21262d;
+    padding: 5px 15px;
+    border-radius: 20px;
+    font-size: 12px;
+    color: #8b949e;
+    border: 1px solid #30363d;
+    transition: transform 0.1s;
+}
+
+#game-area {
+    flex: 1;
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+}
+
+canvas {
+    display: block;
+    width: 100% !important;
+    height: 100% !important;
+}
+
+.footer {
+    padding: 20px;
+    background: var(--panel);
+    border-top: 1px solid #30363d;
+    border-top-left-radius: 24px;
+    border-top-right-radius: 24px;
+}
+
+.controls {
+    display: flex;
+    gap: 12px;
+}
+
+.bet-input {
+    flex: 1.2;
+    background: #0d1117;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    padding: 4px;
+    border: 1px solid #30363d;
+}
+
+.bet-input button {
+    width: 40px;
+    height: 40px;
+    border: none;
+    background: #21262d;
+    color: white;
+    border-radius: 8px;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+.bet-display {
+    flex: 1;
+    text-align: center;
+}
+
+.bet-display small {
+    display: block;
+    font-size: 9px;
+    color: #8b949e;
+}
+
+#drop-btn {
+    flex: 1;
+    background: var(--green);
+    border: none;
+    border-radius: 12px;
+    color: #000;
+    font-weight: bold;
+    font-size: 18px;
+    box-shadow: 0 4px 0px #166534;
+    cursor: pointer;
+}
+
+#drop-btn:active {
+    transform: translateY(2px);
+    box-shadow: 0 2px 0px #166534;
+}
