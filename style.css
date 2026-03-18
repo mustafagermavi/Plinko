@@ -1,52 +1,34 @@
-:root {
-    --bg: #0d1117;
-    --panel: #161b22;
-    --accent: #22c55e; /* ڕەنگی سەوز بۆ دوگمەی BET */
+body{
+background:#000;
+color:white;
+font-family:Arial;
+text-align:center;
 }
 
-body {
-    margin: 0; background: var(--bg); color: white;
-    font-family: 'Roboto', sans-serif; overflow: hidden; height: 100dvh;
+.container{
+width:600px;
+margin:auto;
 }
 
-.app-container {
-    width: 100vw; height: 100dvh; max-width: 480px; margin: 0 auto;
-    display: flex; flex-direction: column;
+canvas{
+background:#111;
+border:2px solid #444;
+margin-top:20px;
 }
 
-.header {
-    padding: 15px 20px; display: flex; justify-content: space-between; align-items: center;
-    background: var(--panel); border-bottom: 1px solid #30363d;
+.controls{
+margin-top:20px;
 }
 
-.amount { color: var(--accent); font-weight: bold; font-size: 18px; }
-
-#game-area { flex: 1; position: relative; width: 100%; }
-
-.footer {
-    padding: 20px; background: var(--panel);
-    border-top-left-radius: 20px; border-top-right-radius: 20px;
+button{
+padding:10px 20px;
+background:#00ff99;
+border:none;
+font-weight:bold;
+cursor:pointer;
 }
 
-.bet-controls { display: flex; gap: 10px; }
-
-.bet-amount-box {
-    flex: 1; display: flex; background: #0d1117; border-radius: 10px;
-    align-items: center; padding: 5px; border: 1px solid #30363d;
+input,select{
+padding:10px;
+margin:5px;
 }
-
-.bet-amount-box button {
-    background: #21262d; border: none; color: white; width: 35px; height: 35px;
-    border-radius: 5px; font-size: 20px;
-}
-
-.val { flex: 1; text-align: center; }
-.val small { display: block; font-size: 10px; color: #8b949e; }
-
-#drop-btn {
-    flex: 0.8; background: var(--accent); border: none; border-radius: 10px;
-    color: #000; font-weight: bold; font-size: 18px; cursor: pointer;
-    box-shadow: 0 4px 0px #166534; transition: 0.1s;
-}
-
-#drop-btn:active { transform: translateY(3px); box-shadow: 0 1px 0px #166534; }
