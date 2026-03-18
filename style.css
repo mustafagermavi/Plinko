@@ -1,71 +1,94 @@
-:root {
-    --neon-cyan: #00f2ff;
-    --neon-pink: #ff007b;
-    --dark-bg: #050505;
+* {
+    box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
 }
 
 body {
     margin: 0;
-    background: var(--dark-bg);
+    padding: 0;
+    background: #050505;
     color: white;
     font-family: 'Orbitron', sans-serif;
+    height: 100vh;
+    overflow: hidden;
     display: flex;
     justify-content: center;
-    overflow: hidden;
 }
 
 .app-container {
     width: 100vw;
     height: 100vh;
-    max-width: 450px;
+    max-width: 500px;
     display: flex;
     flex-direction: column;
-    background: radial-gradient(circle at top, #1a1a2e 0%, #050505 100%);
+    background: radial-gradient(circle at top, #121225 0%, #050505 100%);
+    position: relative;
 }
 
-.stats-bar {
+.header {
+    height: 80px;
     display: flex;
     justify-content: space-between;
-    padding: 20px;
-    background: rgba(255, 255, 255, 0.05);
-    border-bottom: 1px solid rgba(0, 242, 255, 0.2);
+    align-items: center;
+    padding: 0 20px;
+    background: rgba(255, 255, 255, 0.03);
+    border-bottom: 1px solid rgba(0, 242, 255, 0.1);
 }
+
+.balance-box, .bet-display {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.label { font-size: 10px; color: #888; margin-bottom: 4px; }
+#balance { font-weight: bold; color: #00f2ff; font-size: 18px; }
 
 #game-area {
-    flex-grow: 1;
+    flex-grow: 1; /* هەموو بۆشایی ناوەڕاست دەگرێت */
+    width: 100%;
     position: relative;
-    overflow: hidden;
+    touch-action: none;
 }
 
-.control-panel {
-    padding: 30px 20px;
-    background: rgba(0, 0, 0, 0.8);
+canvas { width: 100% !important; height: 100% !important; }
+
+.footer {
+    padding: 20px;
+    background: #000;
     display: flex;
     flex-direction: column;
     gap: 15px;
+    padding-bottom: env(safe-area-inset-bottom); /* بۆ ئایفۆنە نوێیەکان */
 }
 
-.bet-input {
+.bet-control {
     display: flex;
-    justify-content: center;
+    justify-content: space-around;
     align-items: center;
-    gap: 20px;
     background: #111;
-    border-radius: 10px;
+    border-radius: 15px;
     padding: 10px;
 }
 
-#drop-btn {
-    width: 100%;
-    height: 60px;
+.bet-control button {
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
     border: none;
-    border-radius: 12px;
-    background: linear-gradient(90deg, var(--neon-cyan), #0072ff);
+    background: #222;
     color: white;
     font-size: 20px;
-    font-weight: bold;
-    box-shadow: 0 0 20px rgba(0, 242, 255, 0.4);
-    cursor: pointer;
 }
 
-#drop-btn:active { transform: scale(0.98); }
+#drop-btn {
+    height: 55px;
+    border-radius: 15px;
+    border: none;
+    background: linear-gradient(90deg, #00f2ff, #0072ff);
+    color: white;
+    font-weight: bold;
+    font-size: 18px;
+    letter-spacing: 2px;
+    box-shadow: 0 5px 15px rgba(0, 242, 255, 0.3);
+}
