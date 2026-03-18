@@ -1,94 +1,70 @@
-* {
-    box-sizing: border-box;
-    -webkit-tap-highlight-color: transparent;
+:root {
+    --bg-color: #020617;
+    --accent: #00f2ff;
+    --glass: rgba(255, 255, 255, 0.05);
+    --border: rgba(0, 242, 255, 0.2);
 }
 
+* { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
 body {
-    margin: 0;
-    padding: 0;
-    background: #050505;
-    color: white;
-    font-family: 'Orbitron', sans-serif;
-    height: 100vh;
-    overflow: hidden;
-    display: flex;
-    justify-content: center;
+    margin: 0; padding: 0; background: var(--bg-color);
+    color: white; font-family: 'Orbitron', sans-serif;
+    height: 100dvh; overflow: hidden;
 }
 
 .app-container {
-    width: 100vw;
-    height: 100vh;
-    max-width: 500px;
-    display: flex;
-    flex-direction: column;
-    background: radial-gradient(circle at top, #121225 0%, #050505 100%);
-    position: relative;
+    display: flex; flex-direction: column;
+    height: 100dvh; width: 100vw; max-width: 500px; margin: 0 auto;
+    padding-top: env(safe-area-inset-top); /* بۆ نۆچی ئایفۆن */
+    padding-bottom: env(safe-area-inset-bottom);
+    background: radial-gradient(circle at top, #1e293b 0%, #020617 100%);
 }
 
-.header {
-    height: 80px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 0 20px;
-    background: rgba(255, 255, 255, 0.03);
-    border-bottom: 1px solid rgba(0, 242, 255, 0.1);
+.top-nav {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 15px 20px; z-index: 10;
 }
 
-.balance-box, .bet-display {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
+.stat-item .label { font-size: 10px; color: #94a3b8; display: block; }
+.stat-item .val { font-size: 20px; font-weight: bold; color: var(--accent); }
 
-.label { font-size: 10px; color: #888; margin-bottom: 4px; }
-#balance { font-weight: bold; color: #00f2ff; font-size: 18px; }
+.win-tag {
+    background: var(--glass); border: 1px solid var(--border);
+    padding: 5px 15px; border-radius: 20px; font-size: 12px; color: var(--accent);
+}
 
 #game-area {
-    flex-grow: 1; /* هەموو بۆشایی ناوەڕاست دەگرێت */
-    width: 100%;
-    position: relative;
-    touch-action: none;
+    flex: 1; position: relative; width: 100%;
+    display: flex; align-items: center; justify-content: center;
 }
 
-canvas { width: 100% !important; height: 100% !important; }
+canvas { max-width: 100%; max-height: 100%; }
 
-.footer {
-    padding: 20px;
-    background: #000;
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-    padding-bottom: env(safe-area-inset-bottom); /* بۆ ئایفۆنە نوێیەکان */
+.bottom-panel {
+    background: #0f172a; padding: 20px;
+    border-top-left-radius: 25px; border-top-right-radius: 25px;
+    box-shadow: 0 -10px 30px rgba(0,0,0,0.5);
 }
 
-.bet-control {
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    background: #111;
-    border-radius: 15px;
-    padding: 10px;
+.controls-wrapper { display: flex; gap: 15px; align-items: center; }
+
+.bet-selector {
+    flex: 1; display: flex; justify-content: space-between; align-items: center;
+    background: #1e293b; border-radius: 12px; padding: 5px;
 }
 
-.bet-control button {
-    width: 45px;
-    height: 45px;
-    border-radius: 50%;
-    border: none;
-    background: #222;
-    color: white;
-    font-size: 20px;
+.bet-selector button {
+    width: 40px; height: 40px; border: none; background: #334155;
+    color: white; border-radius: 8px; font-size: 20px;
 }
+
+.bet-info { text-align: center; }
+.bet-info small { display: block; font-size: 9px; color: #94a3b8; }
 
 #drop-btn {
-    height: 55px;
-    border-radius: 15px;
-    border: none;
-    background: linear-gradient(90deg, #00f2ff, #0072ff);
-    color: white;
-    font-weight: bold;
-    font-size: 18px;
-    letter-spacing: 2px;
-    box-shadow: 0 5px 15px rgba(0, 242, 255, 0.3);
+    flex: 1; height: 50px; border: none; border-radius: 12px;
+    background: linear-gradient(135deg, var(--accent), #0066ff);
+    color: white; font-weight: bold; font-size: 18px;
+    box-shadow: 0 4px 15px rgba(0, 102, 255, 0.4);
 }
