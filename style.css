@@ -1,8 +1,8 @@
 :root {
     --bg-color: #020617;
     --accent: #00f2ff;
+    --pink: #ff007b;
     --glass: rgba(255, 255, 255, 0.05);
-    --border: rgba(0, 242, 255, 0.2);
 }
 
 * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
@@ -16,22 +16,23 @@ body {
 .app-container {
     display: flex; flex-direction: column;
     height: 100dvh; width: 100vw; max-width: 500px; margin: 0 auto;
-    padding-top: env(safe-area-inset-top); /* بۆ نۆچی ئایفۆن */
+    padding-top: env(safe-area-inset-top);
     padding-bottom: env(safe-area-inset-bottom);
     background: radial-gradient(circle at top, #1e293b 0%, #020617 100%);
 }
 
 .top-nav {
     display: flex; justify-content: space-between; align-items: center;
-    padding: 15px 20px; z-index: 10;
+    padding: 15px 20px; height: 80px;
 }
 
-.stat-item .label { font-size: 10px; color: #94a3b8; display: block; }
-.stat-item .val { font-size: 20px; font-weight: bold; color: var(--accent); }
+.stat-item .label { font-size: 10px; color: #94a3b8; display: block; margin-bottom: 2px; }
+.stat-item .val { font-size: 22px; font-weight: bold; color: var(--accent); text-shadow: 0 0 10px rgba(0, 242, 255, 0.3); }
 
-.win-tag {
-    background: var(--glass); border: 1px solid var(--border);
-    padding: 5px 15px; border-radius: 20px; font-size: 12px; color: var(--accent);
+#winNotice {
+    background: var(--glass); border: 1px solid rgba(0, 242, 255, 0.2);
+    padding: 8px 15px; border-radius: 20px; font-size: 13px; 
+    transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
 #game-area {
@@ -42,29 +43,34 @@ body {
 canvas { max-width: 100%; max-height: 100%; }
 
 .bottom-panel {
-    background: #0f172a; padding: 20px;
-    border-top-left-radius: 25px; border-top-right-radius: 25px;
-    box-shadow: 0 -10px 30px rgba(0,0,0,0.5);
+    background: #0f172a; padding: 25px 20px;
+    border-top-left-radius: 30px; border-top-right-radius: 30px;
+    box-shadow: 0 -10px 40px rgba(0,0,0,0.6);
 }
 
-.controls-wrapper { display: flex; gap: 15px; align-items: center; }
+.controls-wrapper { display: flex; gap: 15px; }
 
 .bet-selector {
     flex: 1; display: flex; justify-content: space-between; align-items: center;
-    background: #1e293b; border-radius: 12px; padding: 5px;
+    background: #1e293b; border-radius: 15px; padding: 6px;
+    border: 1px solid rgba(255,255,255,0.05);
 }
 
 .bet-selector button {
-    width: 40px; height: 40px; border: none; background: #334155;
-    color: white; border-radius: 8px; font-size: 20px;
+    width: 42px; height: 42px; border: none; background: #334155;
+    color: white; border-radius: 10px; font-size: 22px; cursor: pointer;
 }
 
 .bet-info { text-align: center; }
 .bet-info small { display: block; font-size: 9px; color: #94a3b8; }
+.bet-info span { font-weight: bold; font-size: 16px; }
 
 #drop-btn {
-    flex: 1; height: 50px; border: none; border-radius: 12px;
+    flex: 1.2; height: 55px; border: none; border-radius: 15px;
     background: linear-gradient(135deg, var(--accent), #0066ff);
-    color: white; font-weight: bold; font-size: 18px;
-    box-shadow: 0 4px 15px rgba(0, 102, 255, 0.4);
+    color: white; font-weight: bold; font-size: 20px;
+    box-shadow: 0 6px 20px rgba(0, 102, 255, 0.4);
+    letter-spacing: 1px; cursor: pointer;
 }
+
+#drop-btn:active { transform: scale(0.96); }
