@@ -3,38 +3,34 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Mustafa Dev | Plinko Luxury</title>
+    <title>Mustafa Plinko Pro</title>
     <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@600;800&display=swap" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/matter-js/0.19.0/matter.min.js"></script>
 </head>
 <body>
     <div class="app-container">
-        <header class="glass-header">
+        <header>
             <div class="brand">MUSTAFA <span class="neon-text">DEV</span></div>
             <div class="wallet">
-                <span id="balance">1,000.00</span> <small>USD</small>
+                <small>USD</small> <span id="balance">1,000.00</span>
             </div>
         </header>
 
         <main id="game-canvas-area"></main>
 
-        <footer class="controls-panel">
+        <section class="controls-panel">
             <div class="bet-box">
                 <div class="stepper">
                     <button onclick="ui.adjustBet(-5)">−</button>
                     <div class="bet-display">
-                        <small>BET</small>
+                        <small>BET AMOUNT</small>
                         <span id="betAmount">10</span>
                     </div>
                     <button onclick="ui.adjustBet(5)">+</button>
                 </div>
-                <button id="drop-btn" class="main-action-btn">
-                    <span>PLAY</span>
-                    <div class="btn-glow"></div>
-                </button>
+                <button class="main-action-btn" id="drop-btn">PLAY</button>
             </div>
-        </header>
+        </section>
     </div>
 
     <script src="system.js"></script>
