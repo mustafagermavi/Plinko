@@ -9,12 +9,6 @@ const System = {
         this.w = container.clientWidth;
         this.h = container.clientHeight;
 
-        // ئەگەر پێشتر ڕێندەر هەبوو، لایبەرە
-        if (this.render) {
-            Matter.Render.stop(this.render);
-            Matter.Composite.clear(this.engine.world, false);
-        }
-
         this.render = Matter.Render.create({
             element: container,
             engine: this.engine,
@@ -32,6 +26,7 @@ const System = {
         
         this.createWorld();
         this.setupCollisions();
+        this.setupTextRendering(); // بانگکردنی نوسینی ژمارەکان
     },
 
     createWorld() {
@@ -52,11 +47,28 @@ const System = {
         const sW = this.w / multipliers.length;
 
         multipliers.forEach((val, i) => {
-            const slot = Matter.Bodies.rectangle(i * sW + sW / 2, this.h - 35, sW - 5, 30, {
+            const slot = Matter.Bodies.rectangle(i * sW + sW / 2, this.h - 35, sW - 5, 35, {
                 isStatic: true, isSensor: true, label: `x-${val}`,
                 render: { fillStyle: colors[i] }
             });
             Matter.Composite.add(this.engine.world, slot);
+        });
+    },
+
+    // ئەم بەشە ژمارەکانی x10 و x5 دەنوسێت
+    setupTextRendering() {
+        Matter.Events.on(this.render, 'afterRender', () => {
+            const ctx = this.render.context;
+            ctx.font = 'bold 13px sans-serif';
+            ctx.textAlign = 'center';
+            ctx.fillStyle = '#ffffff';
+
+            const multipliers = [10, 5, 2, 1.1, 0.5, 0.5, 1.1, 2, 5, 10];
+            const sW = this.w / multipliers.length;
+
+            multipliers.forEach((val, i) => {
+                ctx.fillText('x' + val, i * sW + sW / 2, this.h - 30);
+            });
         });
     },
 
@@ -77,10 +89,10 @@ const System = {
                 if (ball && slot && !ball.used) {
                     ball.used = true;
                     const mult = parseFloat(slot.label.split('-')[1]);
-                    window.ui.handleWin(mult);
+                    if(window.ui) window.ui.handleWin(mult);
                     
-                    // لادانی تۆپەکە دوای بردنەوە
-                    setTimeout(() => Matter.Composite.remove(this.engine.world, ball), 100);
+                    // سڕینەوەی تۆپەکە بۆ ئەوەی شاشەکە تێک نەچێت
+                    setTimeout(() => Matter.Composite.remove(this.engine.world, ball), 150);
                 }
             });
         });
