@@ -20,46 +20,47 @@ const System = {
             }
         });
 
-        this.engine.gravity.y = 1.5;
+        this.engine.gravity.y = 1.8; // کەمێک خێراتر بۆ هیجان
         Matter.Render.run(this.render);
         Matter.Runner.run(Matter.Runner.create(), this.engine);
         
         this.createWorld();
         this.setupCollisions();
-        this.setupTextRendering(); // بانگکردنی نوسینی ژمارەکان
+        this.setupTextRendering();
     },
 
     createWorld() {
-        // دروستکردنی بزمارەکان
+        // بزمارەکان بە ڕەنگی زیویی گەش
         for (let i = 0; i < 14; i++) {
             for (let j = 0; j <= i; j++) {
                 const x = this.w / 2 + (j - i / 2) * (this.w / 14);
-                const y = 50 + i * (this.h / 22);
-                Matter.Composite.add(this.engine.world, Matter.Bodies.circle(x, y, 3, {
-                    isStatic: true, render: { fillStyle: "#475569" }
+                const y = 60 + i * (this.h / 23);
+                Matter.Composite.add(this.engine.world, Matter.Bodies.circle(x, y, 3.5, {
+                    isStatic: true, restitution: 0.6,
+                    render: { fillStyle: "#64748b", strokeStyle: "#94a3b8", lineWidth: 1 }
                 }));
             }
         }
 
-        // دروستکردنی خانەکان (Slots)
+        // دروستکردنی خانەکان بە شێوازێکی مۆدێرن
         const multipliers = [10, 5, 2, 1.1, 0.5, 0.5, 1.1, 2, 5, 10];
         const colors = ["#ff0055", "#ff5500", "#ffaa00", "#ccff00", "#00ffa3", "#00ffa3", "#ccff00", "#ffaa00", "#ff5500", "#ff0055"];
         const sW = this.w / multipliers.length;
 
         multipliers.forEach((val, i) => {
-            const slot = Matter.Bodies.rectangle(i * sW + sW / 2, this.h - 35, sW - 5, 35, {
+            const slot = Matter.Bodies.rectangle(i * sW + sW / 2, this.h - 40, sW - 8, 35, {
                 isStatic: true, isSensor: true, label: `x-${val}`,
-                render: { fillStyle: colors[i] }
+                render: { fillStyle: colors[i], strokeStyle: "#ffffff44", lineWidth: 2 }
             });
+            slot.originalY = this.h - 40; // پاشەکەوتکردنی شوێنی ئەسڵی بۆ ئەنیمەیشن
             Matter.Composite.add(this.engine.world, slot);
         });
     },
 
-    // ئەم بەشە ژمارەکانی x10 و x5 دەنوسێت
     setupTextRendering() {
         Matter.Events.on(this.render, 'afterRender', () => {
             const ctx = this.render.context;
-            ctx.font = 'bold 13px sans-serif';
+            ctx.font = '900 14px "Plus Jakarta Sans", sans-serif';
             ctx.textAlign = 'center';
             ctx.fillStyle = '#ffffff';
 
@@ -67,15 +68,18 @@ const System = {
             const sW = this.w / multipliers.length;
 
             multipliers.forEach((val, i) => {
-                ctx.fillText('x' + val, i * sW + sW / 2, this.h - 30);
+                // دۆزینەوەی خانەکە بۆ ئەوەی تێکستەکە لەگەڵ ئەنیمەیشنەکە بجوڵێت
+                const slots = Matter.Composite.allBodies(this.engine.world).filter(b => b.label === `x-${val}`);
+                const currentSlot = slots[i] || slots[0]; 
+                ctx.fillText('x' + val, i * sW + sW / 2, currentSlot.position.y + 5);
             });
         });
     },
 
     spawnBall() {
-        const ball = Matter.Bodies.circle(this.w / 2 + (Math.random() * 6 - 3), 10, 7, {
-            restitution: 0.5, frictionAir: 0.04, label: 'ball',
-            render: { fillStyle: "#00ffa3", shadowBlur: 15, shadowColor: "#00ffa3" }
+        const ball = Matter.Bodies.circle(this.w / 2 + (Math.random() * 8 - 4), 20, 8, {
+            restitution: 0.5, frictionAir: 0.03, label: 'ball',
+            render: { fillStyle: "#ffffff", shadowBlur: 20, shadowColor: "#00ffa3" }
         });
         Matter.Composite.add(this.engine.world, ball);
     },
@@ -90,9 +94,14 @@ const System = {
                     ball.used = true;
                     const mult = parseFloat(slot.label.split('-')[1]);
                     if(window.ui) window.ui.handleWin(mult);
+
+                    // --- ئەنیمەیشنی جوڵەی خانەکە (Bouncing Animation) ---
+                    Matter.Body.setPosition(slot, { x: slot.position.x, y: slot.originalY + 15 });
                     
-                    // سڕینەوەی تۆپەکە بۆ ئەوەی شاشەکە تێک نەچێت
-                    setTimeout(() => Matter.Composite.remove(this.engine.world, ball), 150);
+                    setTimeout(() => {
+                        Matter.Body.setPosition(slot, { x: slot.position.x, y: slot.originalY });
+                        Matter.Composite.remove(this.engine.world, ball);
+                    }, 150);
                 }
             });
         });
